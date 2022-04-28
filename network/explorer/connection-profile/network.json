@@ -1,0 +1,50 @@
+{
+  "name": "fabric-network",
+  "version": "1.0.0",
+  "client": {
+    "tlsEnable": true,
+    "adminCredential": {
+      "id": "admin",
+      "password": "123456"
+    },
+    "enableAuthentication": true,
+    "organization": "TeslaMSP",
+    "connection": {
+      "timeout": {
+        "peer": {
+          "endorser": "300"
+        },
+        "orderer": "300"
+      }
+    }
+  },
+  "channels": {
+    "carchannel": {
+      "peers": {
+        "peer0.tesla.com": {}
+      }
+    }
+  },
+  "organizations": {
+    "TeslaMSP": {
+      "mspid": "TeslaMSP",
+      "adminPrivateKey": {
+        "path": "/tmp/crypto/peerOrganizations/tesla.com/users/Admin@tesla.com/msp/keystore/f9586791e510e2f690a85d6cc91326c310456d1486fb591369cb59594800b712_sk"
+      },
+      "peers": [
+        "peer0.tesla.com"
+      ],
+      "signedCert": {
+        "path": "/tmp/crypto/peerOrganizations/tesla.com/users/Admin@tesla.com/msp/signcerts/Admin@tesla.com-cert.pem"
+      }
+    }
+  },
+  "peers": {
+    "peer0.tesla.com": {
+      "tlsCACerts": {
+        "path": "/tmp/crypto/peerOrganizations/tesla.com/peers/peer0.tesla.com/tls/ca.crt"
+      },
+      "url": "grpc://peer0.tesla.com:7051"
+    }
+  }
+}
