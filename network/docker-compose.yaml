@@ -2,10 +2,10 @@ version: '2.1'
 
 volumes:
   orderer.carunion.com:
-  peer0.tesla.com:
-  peer1.tesla.com:
   peer0.benz.com:
   peer1.benz.com:
+  peer0.tesla.com:
+  peer1.tesla.com:
 
 networks:
   fabric_network:
@@ -21,7 +21,7 @@ services:
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_GENESISMETHOD=file
       - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/config/genesis.block # 注入创世区块
-      - ORDERER_GENERAL_LOCALMSPID=carunionMSP
+      - ORDERER_GENERAL_LOCALMSPID=CARUNIONMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/orderer/msp # 证书相关
     command: orderer
     ports:
@@ -33,45 +33,7 @@ services:
     networks:
       - fabric_network
 
-  #  Telsa 组织 peer0 节点
-  peer0.tesla.com:
-    extends:
-      file: docker-compose-base.yaml
-      service: peer-base
-    container_name: peer0.tesla.com
-    environment:
-      - CORE_PEER_ID=peer0.tesla.com
-      - CORE_PEER_LOCALMSPID=TeslaMSP
-      - CORE_PEER_ADDRESS=peer0.tesla.com:7051
-    ports:
-      - "7051:7051" # grpc服务端口
-      - "7053:7053" # eventhub端口
-    volumes:
-      - ./crypto-config/peerOrganizations/tesla.com/peers/peer0.tesla.com:/etc/hyperledger/peer
-      - peer0.tesla.com:/var/hyperledger/production
-    depends_on:
-      - orderer.carunion.com
-
-  #  tesla 组织 peer1 节点
-  peer1.tesla.com:
-    extends:
-      file: docker-compose-base.yaml
-      service: peer-base
-    container_name: peer1.tesla.com
-    environment:
-      - CORE_PEER_ID=peer1.tesla.com
-      - CORE_PEER_LOCALMSPID=TeslaMSP
-      - CORE_PEER_ADDRESS=peer1.tesla.com:7051
-    ports:
-      - "17051:7051"
-      - "17053:7053"
-    volumes:
-      - ./crypto-config/peerOrganizations/tesla.com/peers/peer1.tesla.com:/etc/hyperledger/peer
-      - peer1.tesla.com:/var/hyperledger/production
-    depends_on:
-      - orderer.carunion.com
-
-  #  benz 组织 peer0 节点
+  #  BENZ 组织 peer0 节点
   peer0.benz.com:
     extends:
       file: docker-compose-base.yaml
@@ -79,18 +41,18 @@ services:
     container_name: peer0.benz.com
     environment:
       - CORE_PEER_ID=peer0.benz.com
-      - CORE_PEER_LOCALMSPID=BenzMSP
+      - CORE_PEER_LOCALMSPID=BENZMSP
       - CORE_PEER_ADDRESS=peer0.benz.com:7051
     ports:
-      - "27051:7051"
-      - "27053:7053"
+      - "7051:7051" # grpc服务端口
+      - "7053:7053" # eventhub端口
     volumes:
       - ./crypto-config/peerOrganizations/benz.com/peers/peer0.benz.com:/etc/hyperledger/peer
       - peer0.benz.com:/var/hyperledger/production
     depends_on:
       - orderer.carunion.com
 
-  #  benz 组织 peer1 节点
+  #  BENZ 组织 peer1 节点
   peer1.benz.com:
     extends:
       file: docker-compose-base.yaml
@@ -98,14 +60,52 @@ services:
     container_name: peer1.benz.com
     environment:
       - CORE_PEER_ID=peer1.benz.com
-      - CORE_PEER_LOCALMSPID=BenzMSP
+      - CORE_PEER_LOCALMSPID=BENZMSP
       - CORE_PEER_ADDRESS=peer1.benz.com:7051
+    ports:
+      - "17051:7051"
+      - "17053:7053"
+    volumes:
+      - ./crypto-config/peerOrganizations/benz.com/peers/peer1.benz.com:/etc/hyperledger/peer
+      - peer1.benz.com:/var/hyperledger/production
+    depends_on:
+      - orderer.carunion.com
+
+  #  TESLA 组织 peer0 节点
+  peer0.tesla.com:
+    extends:
+      file: docker-compose-base.yaml
+      service: peer-base
+    container_name: peer0.tesla.com
+    environment:
+      - CORE_PEER_ID=peer0.tesla.com
+      - CORE_PEER_LOCALMSPID=TESLAMSP
+      - CORE_PEER_ADDRESS=peer0.tesla.com:7051
+    ports:
+      - "27051:7051"
+      - "27053:7053"
+    volumes:
+      - ./crypto-config/peerOrganizations/tesla.com/peers/peer0.tesla.com:/etc/hyperledger/peer
+      - peer0.tesla.com:/var/hyperledger/production
+    depends_on:
+      - orderer.carunion.com
+
+  #  TESLA 组织 peer1 节点
+  peer1.tesla.com:
+    extends:
+      file: docker-compose-base.yaml
+      service: peer-base
+    container_name: peer1.tesla.com
+    environment:
+      - CORE_PEER_ID=peer1.tesla.com
+      - CORE_PEER_LOCALMSPID=TESLAMSP
+      - CORE_PEER_ADDRESS=peer1.tesla.com:7051
     ports:
       - "37051:7051"
       - "37053:7053"
     volumes:
-      - ./crypto-config/peerOrganizations/benz.com/peers/peer1.benz.com:/etc/hyperledger/peer
-      - peer1.benz.com:/var/hyperledger/production
+      - ./crypto-config/peerOrganizations/tesla.com/peers/peer1.tesla.com:/etc/hyperledger/peer
+      - peer1.tesla.com:/var/hyperledger/production
     depends_on:
       - orderer.carunion.com
 
@@ -122,14 +122,14 @@ services:
     command: /bin/bash
     volumes:
       - ./config:/etc/hyperledger/config
-      - ./crypto-config/peerOrganizations/tesla.com/:/etc/hyperledger/peer/tesla.com
       - ./crypto-config/peerOrganizations/benz.com/:/etc/hyperledger/peer/benz.com
+      - ./crypto-config/peerOrganizations/tesla.com/:/etc/hyperledger/peer/tesla.com
       - ./../chaincode:/opt/gopath/src/chaincode # 链码路径注入
     networks:
       - fabric_network
     depends_on:
       - orderer.carunion.com
-      - peer0.tesla.com
-      - peer1.tesla.com
       - peer0.benz.com
       - peer1.benz.com
+      - peer0.tesla.com
+      - peer1.tesla.com

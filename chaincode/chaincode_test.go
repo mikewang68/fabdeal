@@ -5,10 +5,9 @@ import (
 	"chaincode/model"
 	"encoding/json"
 	"fmt"
-	"testing"
-
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
+	"testing"
 )
 
 func initTest(t *testing.T) *shim.MockStub {
@@ -65,7 +64,7 @@ func Test_QueryAccountList(t *testing.T) {
 		}).Payload)))
 }
 
-// 测试创建房地产
+// 测试创建车辆
 func Test_CreateRealEstate(t *testing.T) {
 	stub := initTest(t)
 	//成功
@@ -92,7 +91,7 @@ func Test_CreateRealEstate(t *testing.T) {
 		[]byte("50"),           //总面积
 		[]byte("30"),           //生活空间
 	})
-	//业主proprietor信息验证失败
+	//客户proprietor信息验证失败
 	checkInvoke(t, stub, [][]byte{
 		[]byte("createRealEstate"),
 		[]byte("5feceb66ffc8"),    //操作人
@@ -117,7 +116,7 @@ func Test_CreateRealEstate(t *testing.T) {
 	})
 }
 
-//手动创建一些房地产
+//手动创建一些车辆
 func checkCreateRealEstate(stub *shim.MockStub, t *testing.T) []model.RealEstate {
 	var realEstateList []model.RealEstate
 	var realEstate model.RealEstate
@@ -161,7 +160,7 @@ func checkCreateRealEstate(stub *shim.MockStub, t *testing.T) []model.RealEstate
 	return realEstateList
 }
 
-// 测试获取房地产信息
+// 测试获取商品信息
 func Test_QueryRealEstateList(t *testing.T) {
 	stub := initTest(t)
 	realEstateList := checkCreateRealEstate(stub, t)
@@ -190,7 +189,7 @@ func Test_CreateSelling(t *testing.T) {
 	//成功
 	checkInvoke(t, stub, [][]byte{
 		[]byte("createSelling"),
-		[]byte(realEstateList[0].RealEstateID), //销售对象(正在出售的房地产RealEstateID)
+		[]byte(realEstateList[0].RealEstateID), //销售对象(正在出售的车辆RealEstateID)
 		[]byte(realEstateList[0].Proprietor),   //卖家(卖家AccountId)
 		[]byte("50"),                           //价格
 		[]byte("30"),                           //智能合约的有效期(单位为天)
@@ -198,14 +197,14 @@ func Test_CreateSelling(t *testing.T) {
 	//验证销售对象objectOfSale属于卖家seller失败
 	checkInvoke(t, stub, [][]byte{
 		[]byte("createSelling"),
-		[]byte(realEstateList[0].RealEstateID), //销售对象(正在出售的房地产RealEstateID)
+		[]byte(realEstateList[0].RealEstateID), //销售对象(正在出售的车辆RealEstateID)
 		[]byte(realEstateList[2].Proprietor),   //卖家(卖家AccountId)
 		[]byte("50"),                           //价格
 		[]byte("30"),                           //智能合约的有效期(单位为天)
 	})
 	checkInvoke(t, stub, [][]byte{
 		[]byte("createSelling"),
-		[]byte("123"),                        //销售对象(正在出售的房地产RealEstateID)
+		[]byte("123"),                        //销售对象(正在出售的车辆RealEstateID)
 		[]byte(realEstateList[0].Proprietor), //卖家(卖家AccountId)
 		[]byte("50"),                         //价格
 		[]byte("30"),                         //智能合约的有效期(单位为天)
@@ -213,13 +212,13 @@ func Test_CreateSelling(t *testing.T) {
 	//参数错误
 	checkInvoke(t, stub, [][]byte{
 		[]byte("createSelling"),
-		[]byte(realEstateList[0].RealEstateID), //销售对象(正在出售的房地产RealEstateID)
+		[]byte(realEstateList[0].RealEstateID), //销售对象(正在出售的车辆RealEstateID)
 		[]byte(realEstateList[0].Proprietor),   //卖家(卖家AccountId)
 		[]byte("50"),                           //价格
 	})
 	checkInvoke(t, stub, [][]byte{
 		[]byte("createSelling"),
-		[]byte(""),                           //销售对象(正在出售的房地产RealEstateID)
+		[]byte(""),                           //销售对象(正在出售的车辆RealEstateID)
 		[]byte(realEstateList[0].Proprietor), //卖家(卖家AccountId)
 		[]byte("50"),                         //价格
 		[]byte("30"),                         //智能合约的有效期(单位为天)
@@ -233,14 +232,14 @@ func Test_QuerySellingList(t *testing.T) {
 	//先发起
 	fmt.Println(fmt.Sprintf("发起\n%s", string(checkInvoke(t, stub, [][]byte{
 		[]byte("createSelling"),
-		[]byte(realEstateList[0].RealEstateID), //销售对象(正在出售的房地产RealEstateID)
+		[]byte(realEstateList[0].RealEstateID), //销售对象(正在出售的车辆RealEstateID)
 		[]byte(realEstateList[0].Proprietor),   //卖家(卖家AccountId)
 		[]byte("500000"),                       //价格
 		[]byte("30"),                           //智能合约的有效期(单位为天)
 	}).Payload)))
 	fmt.Println(fmt.Sprintf("发起\n%s", string(checkInvoke(t, stub, [][]byte{
 		[]byte("createSelling"),
-		[]byte(realEstateList[2].RealEstateID), //销售对象(正在出售的房地产RealEstateID)
+		[]byte(realEstateList[2].RealEstateID), //销售对象(正在出售的车辆RealEstateID)
 		[]byte(realEstateList[2].Proprietor),   //卖家(卖家AccountId)
 		[]byte("600000"),                       //价格
 		[]byte("40"),                           //智能合约的有效期(单位为天)
@@ -260,7 +259,7 @@ func Test_QuerySellingList(t *testing.T) {
 	}).Payload)))
 	fmt.Println(fmt.Sprintf("4、开始购买\n%s", string(checkInvoke(t, stub, [][]byte{
 		[]byte("createSellingByBuy"),
-		[]byte(realEstateList[0].RealEstateID), //销售对象(正在出售的房地产RealEstateID)
+		[]byte(realEstateList[0].RealEstateID), //销售对象(正在出售的车辆RealEstateID)
 		[]byte(realEstateList[0].Proprietor),   //卖家(卖家AccountId)
 		[]byte(realEstateList[2].Proprietor),   //买家(买家AccountId)
 	}).Payload)))
@@ -284,24 +283,24 @@ func Test_QuerySellingList(t *testing.T) {
 		[]byte("queryAccountList"),
 		[]byte(realEstateList[2].Proprietor),
 	}).Payload)))
-	fmt.Println(fmt.Sprintf("》确认收款前卖家%s的房产信息\n%s", realEstateList[0].Proprietor, string(checkInvoke(t, stub, [][]byte{
+	fmt.Println(fmt.Sprintf("》确认收款前卖家%s的商品信息\n%s", realEstateList[0].Proprietor, string(checkInvoke(t, stub, [][]byte{
 		[]byte("queryRealEstateList"),
 		[]byte(realEstateList[0].Proprietor),
 	}).Payload)))
-	fmt.Println(fmt.Sprintf("》确认收款前买家%s的房产信息\n%s", realEstateList[2].Proprietor, string(checkInvoke(t, stub, [][]byte{
+	fmt.Println(fmt.Sprintf("》确认收款前买家%s的商品信息\n%s", realEstateList[2].Proprietor, string(checkInvoke(t, stub, [][]byte{
 		[]byte("queryRealEstateList"),
 		[]byte(realEstateList[2].Proprietor),
 	}).Payload)))
 	fmt.Println(fmt.Sprintf("》卖家确认收款\n%s", string(checkInvoke(t, stub, [][]byte{
 		[]byte("updateSelling"),
-		[]byte(realEstateList[0].RealEstateID), //销售对象(正在出售的房地产RealEstateID)
+		[]byte(realEstateList[0].RealEstateID), //销售对象(正在出售的车辆RealEstateID)
 		[]byte(realEstateList[0].Proprietor),   //卖家(卖家AccountId)
 		[]byte(realEstateList[2].Proprietor),   //买家(买家AccountId)
 		[]byte("done"),                         //确认收款
 	}).Payload)))
 	//fmt.Println(fmt.Sprintf("》卖家取消收款\n%s", string(checkInvoke(t, stub, [][]byte{
 	//	[]byte("updateSelling"),
-	//	[]byte(realEstateList[0].RealEstateID), //销售对象(正在出售的房地产RealEstateID)
+	//	[]byte(realEstateList[0].RealEstateID), //销售对象(正在出售的车辆RealEstateID)
 	//	[]byte(realEstateList[0].Proprietor),   //卖家(卖家AccountId)
 	//	[]byte(realEstateList[2].Proprietor),   //买家(买家AccountId)
 	//	[]byte("cancelled"),                    //取消收款
@@ -314,11 +313,11 @@ func Test_QuerySellingList(t *testing.T) {
 		[]byte("queryAccountList"),
 		[]byte(realEstateList[2].Proprietor),
 	}).Payload)))
-	fmt.Println(fmt.Sprintf("》确认收款后卖家%s的房产信息\n%s", realEstateList[0].Proprietor, string(checkInvoke(t, stub, [][]byte{
+	fmt.Println(fmt.Sprintf("》确认收款后卖家%s的商品信息\n%s", realEstateList[0].Proprietor, string(checkInvoke(t, stub, [][]byte{
 		[]byte("queryRealEstateList"),
 		[]byte(realEstateList[0].Proprietor),
 	}).Payload)))
-	fmt.Println(fmt.Sprintf("》确认收款后买家%s的房产信息\n%s", realEstateList[2].Proprietor, string(checkInvoke(t, stub, [][]byte{
+	fmt.Println(fmt.Sprintf("》确认收款后买家%s的商品信息\n%s", realEstateList[2].Proprietor, string(checkInvoke(t, stub, [][]byte{
 		[]byte("queryRealEstateList"),
 		[]byte(realEstateList[2].Proprietor),
 	}).Payload)))
@@ -337,7 +336,7 @@ func Test_Donating(t *testing.T) {
 	stub := initTest(t)
 	realEstateList := checkCreateRealEstate(stub, t)
 
-	fmt.Println(fmt.Sprintf("获取房地产信息\n%s",
+	fmt.Println(fmt.Sprintf("获取商品信息\n%s",
 		string(checkInvoke(t, stub, [][]byte{
 			[]byte("queryRealEstateList"),
 		}).Payload)))
@@ -349,7 +348,7 @@ func Test_Donating(t *testing.T) {
 		[]byte(realEstateList[2].Proprietor),
 	}).Payload)))
 
-	fmt.Println(fmt.Sprintf("获取房地产信息\n%s",
+	fmt.Println(fmt.Sprintf("获取商品信息\n%s",
 		string(checkInvoke(t, stub, [][]byte{
 			[]byte("queryRealEstateList"),
 		}).Payload)))
@@ -381,7 +380,7 @@ func Test_Donating(t *testing.T) {
 		[]byte("cancelled"),
 	}).Payload)))
 
-	fmt.Println(fmt.Sprintf("获取房地产信息\n%s",
+	fmt.Println(fmt.Sprintf("获取商品信息\n%s",
 		string(checkInvoke(t, stub, [][]byte{
 			[]byte("queryRealEstateList"),
 		}).Payload)))

@@ -48,9 +48,9 @@ func CreateSelling(stub shim.ChaincodeStubInterface, args []string) pb.Response 
 		return shim.Error(fmt.Sprintf("CreateSelling-反序列化出错: %s", err))
 	}
 	//判断记录是否已存在，不能重复发起销售
-	//若Encumbrance为true即说明此房产已经正在担保状态
+	//若Encumbrance为true即说明此车辆已经正在担保状态
 	if realEstate.Encumbrance {
-		return shim.Error("此房地产已经作为担保状态，不能重复发起销售")
+		return shim.Error("此车辆已经作为担保状态，不能重复发起销售")
 	}
 	createTime, _ := stub.GetTxTimestamp()
 	selling := &model.Selling{
@@ -95,10 +95,10 @@ func CreateSellingByBuy(stub shim.ChaincodeStubInterface, args []string) pb.Resp
 	if seller == buyer {
 		return shim.Error("买家和卖家不能同一人")
 	}
-	//根据objectOfSale和seller获取想要购买的房产信息，确认存在该房产
+	//根据objectOfSale和seller获取想要购买的商品信息，确认存在该车辆
 	resultsRealEstate, err := utils.GetStateByPartialCompositeKeys2(stub, model.RealEstateKey, []string{seller, objectOfSale})
 	if err != nil || len(resultsRealEstate) != 1 {
-		return shim.Error(fmt.Sprintf("根据%s和%s获取想要购买的房产信息失败: %s", objectOfSale, seller, err))
+		return shim.Error(fmt.Sprintf("根据%s和%s获取想要购买的商品信息失败: %s", objectOfSale, seller, err))
 	}
 	//根据objectOfSale和seller获取销售信息
 	resultsSelling, err := utils.GetStateByPartialCompositeKeys2(stub, model.SellingKey, []string{seller, objectOfSale})
@@ -127,7 +127,7 @@ func CreateSellingByBuy(stub shim.ChaincodeStubInterface, args []string) pb.Resp
 	}
 	//判断余额是否充足
 	if buyerAccount.Balance < selling.Price {
-		return shim.Error(fmt.Sprintf("房产售价为%f,您的当前余额为%f,购买失败", selling.Price, buyerAccount.Balance))
+		return shim.Error(fmt.Sprintf("车辆售价为%f,您的当前余额为%f,购买失败", selling.Price, buyerAccount.Balance))
 	}
 	//将buyer写入交易selling,修改交易状态
 	selling.Buyer = buyer
@@ -225,10 +225,10 @@ func UpdateSelling(stub shim.ChaincodeStubInterface, args []string) pb.Response 
 	if buyer == seller {
 		return shim.Error("买家和卖家不能同一人")
 	}
-	//根据objectOfSale和seller获取想要购买的房产信息，确认存在该房产
+	//根据objectOfSale和seller获取想要购买的商品信息，确认存在该车辆
 	resultsRealEstate, err := utils.GetStateByPartialCompositeKeys2(stub, model.RealEstateKey, []string{seller, objectOfSale})
 	if err != nil || len(resultsRealEstate) != 1 {
-		return shim.Error(fmt.Sprintf("根据%s和%s获取想要购买的房产信息失败: %s", objectOfSale, seller, err))
+		return shim.Error(fmt.Sprintf("根据%s和%s获取想要购买的商品信息失败: %s", objectOfSale, seller, err))
 	}
 	var realEstate model.RealEstate
 	if err = json.Unmarshal(resultsRealEstate[0], &realEstate); err != nil {
@@ -290,20 +290,20 @@ func UpdateSelling(stub shim.ChaincodeStubInterface, args []string) pb.Response 
 		if err := utils.WriteLedger(accountSeller, stub, model.AccountKey, []string{accountSeller.AccountId}); err != nil {
 			return shim.Error(fmt.Sprintf("卖家确认接收资金失败%s", err))
 		}
-		//将房产信息转入买家，并重置担保状态
+		//将商品信息转入买家，并重置担保状态
 		realEstate.Proprietor = buyer
 		realEstate.Encumbrance = false
-		//realEstate.RealEstateID = stub.GetTxID() //重新更新房产ID
+		//realEstate.RealEstateID = stub.GetTxID() //重新更新车辆ID
 		if err := utils.WriteLedger(realEstate, stub, model.RealEstateKey, []string{realEstate.Proprietor, realEstate.RealEstateID}); err != nil {
 			return shim.Error(fmt.Sprintf("%s", err))
 		}
-		//清除原来的房产信息
+		//清除原来的商品信息
 		if err := utils.DelLedger(stub, model.RealEstateKey, []string{seller, objectOfSale}); err != nil {
 			return shim.Error(fmt.Sprintf("%s", err))
 		}
 		//订单状态设置为完成，写入账本
 		selling.SellingStatus = model.SellingStatusConstant()["done"]
-		selling.ObjectOfSale = realEstate.RealEstateID //重新更新房产ID
+		selling.ObjectOfSale = realEstate.RealEstateID //重新更新车辆ID
 		if err := utils.WriteLedger(selling, stub, model.SellingKey, []string{selling.Seller, objectOfSale}); err != nil {
 			return shim.Error(fmt.Sprintf("%s", err))
 		}
@@ -341,7 +341,7 @@ func closeSelling(closeStart string, selling model.Selling, realEstate model.Rea
 	switch selling.SellingStatus {
 	case model.SellingStatusConstant()["saleStart"]:
 		selling.SellingStatus = model.SellingStatusConstant()[closeStart]
-		//重置房产信息担保状态
+		//重置商品信息担保状态
 		realEstate.Encumbrance = false
 		if err := utils.WriteLedger(realEstate, stub, model.RealEstateKey, []string{realEstate.Proprietor, realEstate.RealEstateID}); err != nil {
 			return nil, err
@@ -369,7 +369,7 @@ func closeSelling(closeStart string, selling model.Selling, realEstate model.Rea
 		if err := utils.WriteLedger(accountBuyer, stub, model.AccountKey, []string{accountBuyer.AccountId}); err != nil {
 			return nil, err
 		}
-		//重置房产信息担保状态
+		//重置商品信息担保状态
 		realEstate.Encumbrance = false
 		if err := utils.WriteLedger(realEstate, stub, model.RealEstateKey, []string{realEstate.Proprietor, realEstate.RealEstateID}); err != nil {
 			return nil, err

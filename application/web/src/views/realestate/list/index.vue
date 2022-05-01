@@ -17,29 +17,53 @@
     </div>
     <el-row v-loading="loading" :gutter="20">
       <el-col v-for="(val,index) in realEstateList" :key="index" :span="6" :offset="1">
-        <el-card class="realEstate-card">
+        <!-- <el-card class="realEstate-card"> -->
+        <el-card class="text item">
           <div slot="header" class="clearfix">
             担保状态:
             <span style="color: rgb(255, 0, 0);">{{ val.encumbrance }}</span>
           </div>
 
           <div class="item">
-            <el-tag>房产ID: </el-tag>
+            <el-tag>商品ID: </el-tag>
             <span>{{ val.realEstateId }}</span>
           </div>
           <div class="item">
-            <el-tag type="success">业主ID: </el-tag>
+            <el-tag type="success">客户ID: </el-tag>
             <span>{{ val.proprietor }}</span>
           </div>
           <div class="item">
-            <el-tag type="warning">总空间: </el-tag>
-            <span>{{ val.totalArea }} ㎡</span>
+            <el-tag type="warning">商品型号: </el-tag>
+            <span>{{ val.carmodel }}</span>
           </div>
           <div class="item">
-            <el-tag type="danger">居住空间: </el-tag>
-            <span>{{ val.livingSpace }} ㎡</span>
+            <el-tag type="danger">商品生产地: </el-tag>
+            <span>{{ val.car_scz }}</span>
           </div>
-
+          <div class="item">
+            <el-tag type="warning">商品生产地: </el-tag>
+            <span>{{ val.car_scd }}</span>
+          </div>
+          <div class="item">
+            <el-tag type="danger">商品生产时间: </el-tag>
+            <span>{{ val.car_scsj }}</span>
+          </div>
+          <div class="item">
+            <el-tag type="warning">商品批号: </el-tag>
+            <span>{{ val.car_lbjph }}</span>
+          </div>
+          <div class="item">
+            <el-tag type="danger">商品生产者: </el-tag>
+            <span>{{ val.car_lbjscz }}</span>
+          </div>
+          <!-- <div class="item">
+            <el-tag type="warning">商品零部件生产地: </el-tag>
+            <span>{{ val.car_lbjscd }}</span>
+          </div>
+          <div class="item">
+            <el-tag type="danger">商品零部件生产时间: </el-tag>
+            <span>{{ val.car_lbjscsj }}</span>
+          </div>           -->
           <div v-if="!val.encumbrance&&roles[0] !== 'admin'">
             <el-button type="text" @click="openDialog(val)">出售</el-button>
             <el-divider direction="vertical" />
@@ -65,8 +89,8 @@
     </el-dialog>
     <el-dialog v-loading="loadingDialog" :visible.sync="dialogCreateDonating" :close-on-click-modal="false" @close="resetForm('DonatingForm')">
       <el-form ref="DonatingForm" :model="DonatingForm" :rules="rulesDonating" label-width="100px">
-        <el-form-item label="业主" prop="proprietor">
-          <el-select v-model="DonatingForm.proprietor" placeholder="请选择业主" @change="selectGet">
+        <el-form-item label="客户" prop="proprietor">
+          <el-select v-model="DonatingForm.proprietor" placeholder="请选择客户" @change="selectGet">
             <el-option
               v-for="item in accountList"
               :key="item.accountId"
@@ -127,7 +151,7 @@ export default {
       },
       rulesDonating: {
         proprietor: [
-          { required: true, message: '请选择业主', trigger: 'change' }
+          { required: true, message: '请选择客户', trigger: 'change' }
         ]
       },
       accountList: [],
@@ -313,7 +337,7 @@ export default {
 
   .realEstate-card {
     width: 280px;
-    height: 340px;
+    height: 600px;
     margin: 18px;
   }
 </style>

@@ -1,6 +1,6 @@
 FROM golang:1.14 AS app
 ENV GO111MODULE=on
-ENV GOPROXY https://mirrors.aliyun.com/goproxy/,direct
+ENV GOPROXY https://goproxy.cn,direct
 WORKDIR /root/togettoyou
 COPY server/. .
 RUN CGO_ENABLED=0 go build -v -o "app" .

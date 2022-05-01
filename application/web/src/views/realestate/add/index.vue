@@ -2,8 +2,8 @@
   <div class="app-container">
     <el-form ref="ruleForm" v-loading="loading" :model="ruleForm" :rules="rules" label-width="100px">
 
-      <el-form-item label="业主" prop="proprietor">
-        <el-select v-model="ruleForm.proprietor" placeholder="请选择业主" @change="selectGet">
+      <el-form-item label="客户" prop="proprietor">
+        <el-select v-model="ruleForm.proprietor" placeholder="请选择客户" @change="selectGet">
           <el-option
             v-for="item in accountList"
             :key="item.accountId"
@@ -15,12 +15,36 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="总空间 ㎡" prop="totalArea">
+
+
+      <!-- <el-form-item label="总空间 ㎡" prop="totalArea">
         <el-input-number v-model="ruleForm.totalArea" :precision="2" :step="0.1" :min="0" />
+      </el-form-item> -->
+      <el-form-item label="商品型号" prop="totalArea">
+        <el-input size="medium"  v-model="ruleForm.carmodel" placeholder="请输入内容"></el-input>
       </el-form-item>
-      <el-form-item label="居住空间 ㎡" prop="livingSpace">
-        <el-input-number v-model="ruleForm.livingSpace" :precision="2" :step="0.1" :min="0" />
+      <el-form-item label="商品生产商" prop="totalArea">
+        <el-input size="medium"  v-model="ruleForm.car_scz" placeholder="请输入内容"></el-input>
       </el-form-item>
+      <el-form-item label="商品生产地" prop="totalArea">
+        <el-input size="medium"  v-model="ruleForm.car_scd" placeholder="请输入内容"></el-input>
+      </el-form-item>
+      <el-form-item label="商品生产时间" prop="totalArea">
+        <el-input size="medium"  v-model="ruleForm.car_scsj" placeholder="请输入内容"></el-input>
+      </el-form-item>
+      <el-form-item label="商品批号" prop="totalArea">
+        <el-input size="medium"  v-model="ruleForm.car_lbjph" placeholder="请输入内容"></el-input>
+      </el-form-item>
+      <el-form-item label="商品生产者" prop="totalArea">
+        <el-input size="medium"  v-model="ruleForm.car_lbjscz" placeholder="请输入内容"></el-input>
+      </el-form-item>
+      <!-- <el-form-item label="商品零部件生产地" prop="totalArea">
+        <el-input size="medium"  v-model="ruleForm.car_lbjscd" placeholder="请输入内容"></el-input>
+      </el-form-item>
+      <el-form-item label="商品零部件生产时间" prop="totalArea">
+        <el-input size="medium"  v-model="ruleForm.car_lbjscsj" placeholder="请输入内容"></el-input>
+      </el-form-item> -->
+
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -47,20 +71,29 @@ export default {
     return {
       ruleForm: {
         proprietor: '',
-        totalArea: 0,
-        livingSpace: 0
+        // totalArea: 0,
+        // livingSpace: 0
+        carmodel: '',
+        car_scz: '',
+        car_scd: '',
+        car_scsj: '',
+        car_lbjph: '',
+        car_lbjscz: '',
+        car_lbjscd: '',
+        car_lbjscsj: '',
+
       },
       accountList: [],
       rules: {
         proprietor: [
-          { required: true, message: '请选择业主', trigger: 'change' }
+          { required: true, message: '请选择客户', trigger: 'change' }
         ],
-        totalArea: [
-          { validator: checkArea, trigger: 'blur' }
-        ],
-        livingSpace: [
-          { validator: checkArea, trigger: 'blur' }
-        ]
+        // totalArea: [
+        //   { validator: checkArea, trigger: 'blur' }
+        // ],
+        // livingSpace: [
+        //   { validator: checkArea, trigger: 'blur' }
+        // ]
       },
       loading: false
     }
@@ -93,8 +126,17 @@ export default {
             createRealEstate({
               accountId: this.accountId,
               proprietor: this.ruleForm.proprietor,
-              totalArea: this.ruleForm.totalArea,
-              livingSpace: this.ruleForm.livingSpace
+              // totalArea: this.ruleForm.totalArea,
+              // livingSpace: this.ruleForm.livingSpace
+              carmodel: this.ruleForm.carmodel,
+              car_scz: this.ruleForm.car_scz,
+              car_scd: this.ruleForm.car_scd,
+              car_scsj: this.ruleForm.car_scsj,
+              car_lbjph: this.ruleForm.car_lbjph,
+              car_lbjscz: this.ruleForm.car_lbjscz,
+              car_lbjscd: this.ruleForm.car_lbjscd,
+              car_lbjscsj: this.ruleForm.car_lbjscsj,
+
             }).then(response => {
               this.loading = false
               if (response !== null) {

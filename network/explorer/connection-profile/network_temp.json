@@ -8,7 +8,7 @@
       "password": "123456"
     },
     "enableAuthentication": true,
-    "organization": "TeslaMSP",
+    "organization": "BENZMSP",
     "connection": {
       "timeout": {
         "peer": {
@@ -19,32 +19,32 @@
     }
   },
   "channels": {
-    "carchannel": {
+    "appchannel": {
       "peers": {
-        "peer0.tesla.com": {}
+        "peer0.benz.com": {}
       }
     }
   },
   "organizations": {
-    "TeslaMSP": {
-      "mspid": "TeslaMSP",
+    "BENZMSP": {
+      "mspid": "BENZMSP",
       "adminPrivateKey": {
-        "path": "/tmp/crypto/peerOrganizations/tesla.com/users/Admin@tesla.com/msp/keystore/priv_sk"
+        "path": "/tmp/crypto/peerOrganizations/benz.com/users/Admin@benz.com/msp/keystore/priv_sk"
       },
       "peers": [
-        "peer0.tesla.com"
+        "peer0.benz.com"
       ],
       "signedCert": {
-        "path": "/tmp/crypto/peerOrganizations/tesla.com/users/Admin@tesla.com/msp/signcerts/Admin@tesla.com-cert.pem"
+        "path": "/tmp/crypto/peerOrganizations/benz.com/users/Admin@benz.com/msp/signcerts/Admin@benz.com-cert.pem"
       }
     }
   },
   "peers": {
-    "peer0.tesla.com": {
+    "peer0.benz.com": {
       "tlsCACerts": {
-        "path": "/tmp/crypto/peerOrganizations/tesla.com/peers/peer0.tesla.com/tls/ca.crt"
+        "path": "/tmp/crypto/peerOrganizations/benz.com/peers/peer0.benz.com/tls/ca.crt"
       },
-      "url": "grpc://peer0.tesla.com:7051"
+      "url": "grpc://peer0.benz.com:7051"
     }
   }
 }

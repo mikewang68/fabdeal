@@ -48,9 +48,9 @@ func CreateDonating(stub shim.ChaincodeStubInterface, args []string) pb.Response
 		return shim.Error(fmt.Sprintf("不能捐赠给管理员%s", err))
 	}
 	//判断记录是否已存在，不能重复发起捐赠
-	//若Encumbrance为true即说明此房产已经正在担保状态
+	//若Encumbrance为true即说明此车辆已经正在担保状态
 	if realEstate.Encumbrance {
-		return shim.Error("此房地产已经作为担保状态，不能再发起捐赠")
+		return shim.Error("此车辆已经作为担保状态，不能再发起捐赠")
 	}
 	createTime, _ := stub.GetTxTimestamp()
 	donating := &model.Donating{
@@ -153,10 +153,10 @@ func UpdateDonating(stub shim.ChaincodeStubInterface, args []string) pb.Response
 	if donor == grantee {
 		return shim.Error("捐赠人和受赠人不能同一人")
 	}
-	//根据objectOfDonating和donor获取想要购买的房产信息，确认存在该房产
+	//根据objectOfDonating和donor获取想要购买的商品信息，确认存在该车辆
 	resultsRealEstate, err := utils.GetStateByPartialCompositeKeys2(stub, model.RealEstateKey, []string{donor, objectOfDonating})
 	if err != nil || len(resultsRealEstate) != 1 {
-		return shim.Error(fmt.Sprintf("根据%s和%s获取想要购买的房产信息失败: %s", objectOfDonating, donor, err))
+		return shim.Error(fmt.Sprintf("根据%s和%s获取想要购买的商品信息失败: %s", objectOfDonating, donor, err))
 	}
 	var realEstate model.RealEstate
 	if err = json.Unmarshal(resultsRealEstate[0], &realEstate); err != nil {
@@ -210,20 +210,20 @@ func UpdateDonating(stub shim.ChaincodeStubInterface, args []string) pb.Response
 	//判断捐赠状态
 	switch status {
 	case "done":
-		//将房产信息转入受赠人，并重置担保状态
+		//将商品信息转入受赠人，并重置担保状态
 		realEstate.Proprietor = grantee
 		realEstate.Encumbrance = false
-		//realEstate.RealEstateID = stub.GetTxID() //重新更新房产ID
+		//realEstate.RealEstateID = stub.GetTxID() //重新更新车辆ID
 		if err := utils.WriteLedger(realEstate, stub, model.RealEstateKey, []string{realEstate.Proprietor, realEstate.RealEstateID}); err != nil {
 			return shim.Error(fmt.Sprintf("%s", err))
 		}
-		//清除原来的房产信息
+		//清除原来的商品信息
 		if err := utils.DelLedger(stub, model.RealEstateKey, []string{donor, objectOfDonating}); err != nil {
 			return shim.Error(fmt.Sprintf("%s", err))
 		}
 		//捐赠状态设置为完成，写入账本
 		donating.DonatingStatus = model.DonatingStatusConstant()["done"]
-		donating.ObjectOfDonating = realEstate.RealEstateID //重新更新房产ID
+		donating.ObjectOfDonating = realEstate.RealEstateID //重新更新车辆ID
 		if err := utils.WriteLedger(donating, stub, model.DonatingKey, []string{donating.Donor, objectOfDonating, grantee}); err != nil {
 			return shim.Error(fmt.Sprintf("%s", err))
 		}
@@ -237,7 +237,7 @@ func UpdateDonating(stub shim.ChaincodeStubInterface, args []string) pb.Response
 		}
 		break
 	case "cancelled":
-		//重置房产信息担保状态
+		//重置商品信息担保状态
 		realEstate.Encumbrance = false
 		if err := utils.WriteLedger(realEstate, stub, model.RealEstateKey, []string{realEstate.Proprietor, realEstate.RealEstateID}); err != nil {
 			return shim.Error(fmt.Sprintf("%s", err))

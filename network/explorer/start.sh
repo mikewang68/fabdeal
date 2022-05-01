@@ -1,6 +1,6 @@
 #!/bin/bash
 
-priv_sk_path=$(ls ../crypto-config/peerOrganizations/tesla.com/users/Admin\@tesla.com/msp/keystore/)
+priv_sk_path=$(ls ../crypto-config/peerOrganizations/benz.com/users/Admin\@benz.com/msp/keystore/)
 
 cp -rf ./connection-profile/network_temp.json ./connection-profile/network.json
 

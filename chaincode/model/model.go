@@ -1,21 +1,41 @@
 package model
 
-// Account 账户，虚拟管理员和若干业主账号
+// Account 账户，虚拟管理员和若干客户账号
 type Account struct {
 	AccountId string  `json:"accountId"` //账号ID
 	UserName  string  `json:"userName"`  //账号名
 	Balance   float64 `json:"balance"`   //余额
 }
 
-// RealEstate 房地产作为担保出售、捐赠或质押时Encumbrance为true，默认状态false。
+// type RealEstate struct {
+// 	RealEstateID string `json:"realEstateId"` //车辆ID
+// 	Proprietor   string `json:"proprietor"`   //所有者(客户)(客户AccountId)
+// 	Encumbrance  bool   `json:"encumbrance"`  //是否作为担保
+// 	Carmodel     string `json:"carmodel"`
+// 	Car_scz      string `json:"car_scz"`
+// 	Car_scd      string `json:"car_scd"`
+// 	Car_scsj     string `json:"car_scsj"`
+// 	Car_lbjph    string `json:"car_lbjph"`
+// 	Car_lbjscz   string `json:"Car_lbjscz"`
+// 	Car_lbjscd   string `json:"car_lbjscd"`
+// 	Car_lbjscsj  string `json:"car_lbjscsj"`
+// }
+
+// RealEstate 车辆作为担保出售、捐赠或质押时Encumbrance为true，默认状态false。
 // 仅当Encumbrance为false时，才可发起出售、捐赠或质押
-// Proprietor和RealEstateID一起作为复合键,保证可以通过Proprietor查询到名下所有的房产信息
+// Proprietor和RealEstateID一起作为复合键,保证可以通过Proprietor查询到名下所有的商品信息
 type RealEstate struct {
-	RealEstateID string  `json:"realEstateId"` //房地产ID
-	Proprietor   string  `json:"proprietor"`   //所有者(业主)(业主AccountId)
-	Encumbrance  bool    `json:"encumbrance"`  //是否作为担保
-	TotalArea    float64 `json:"totalArea"`    //总面积
-	LivingSpace  float64 `json:"livingSpace"`  //生活空间
+	RealEstateID string `json:"realEstateId"` //车辆ID
+	Proprietor   string `json:"proprietor"`   //所有者(客户)(客户AccountId)
+	Encumbrance  bool   `json:"encumbrance"`  //是否作为担保
+	Carmodel     string `json:"carmodel"`
+	Car_scz      string `json:"car_scz"`
+	Car_scd      string `json:"car_scd"`
+	Car_scsj     string `json:"car_scsj"`
+	Car_lbjph    string `json:"car_lbjph"`
+	Car_lbjscz   string `json:"car_lbjscz"`
+	Car_lbjscd   string `json:"car_lbjscd"`
+	Car_lbjscsj  string `json:"car_lbjscsj"`
 }
 
 // Selling 销售要约
@@ -23,7 +43,7 @@ type RealEstate struct {
 // 买家初始为空
 // Seller和ObjectOfSale一起作为复合键,保证可以通过seller查询到名下所有发起的销售
 type Selling struct {
-	ObjectOfSale  string  `json:"objectOfSale"`  //销售对象(正在出售的房地产RealEstateID)
+	ObjectOfSale  string  `json:"objectOfSale"`  //销售对象(正在出售的车辆RealEstateID)
 	Seller        string  `json:"seller"`        //发起销售人、卖家(卖家AccountId)
 	Buyer         string  `json:"buyer"`         //参与销售人、买家(买家AccountId)
 	Price         float64 `json:"price"`         //价格
@@ -56,7 +76,7 @@ type SellingBuy struct {
 // 需要确定ObjectOfDonating是否属于Donor
 // 需要指定受赠人Grantee，并等待受赠人同意接收
 type Donating struct {
-	ObjectOfDonating string `json:"objectOfDonating"` //捐赠对象(正在捐赠的房地产RealEstateID)
+	ObjectOfDonating string `json:"objectOfDonating"` //捐赠对象(正在捐赠的车辆RealEstateID)
 	Donor            string `json:"donor"`            //捐赠人(捐赠人AccountId)
 	Grantee          string `json:"grantee"`          //受赠人(受赠人AccountId)
 	CreateTime       string `json:"createTime"`       //创建时间

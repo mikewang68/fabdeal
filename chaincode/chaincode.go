@@ -26,7 +26,7 @@ func (t *BlockChainRealEstate) Init(stub shim.ChaincodeStubInterface) pb.Respons
 		"4b227777d4dd",
 		"ef2d127de37b",
 	}
-	var userNames = [6]string{"管理员", "①号业主", "②号业主", "③号业主", "④号业主", "⑤号业主"}
+	var userNames = [6]string{"管理员", "①号客户", "②号客户", "③号客户", "④号客户", "⑤号客户"}
 	var balances = [6]float64{0, 5000000, 5000000, 5000000, 5000000, 5000000}
 	//初始化账号数据
 	for i, val := range accountIds {
@@ -49,6 +49,7 @@ func (t *BlockChainRealEstate) Invoke(stub shim.ChaincodeStubInterface) pb.Respo
 	switch funcName {
 	case "hello":
 		return api.Hello(stub, args)
+		// return api.CreateRealEstate(stub, args)
 	case "queryAccountList":
 		return api.QueryAccountList(stub, args)
 	case "createRealEstate":
