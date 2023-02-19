@@ -1,3 +1,1 @@
-一键启动命令： cd /项目/network && ./stop.sh && ./start.sh && cd ../application && ./stop.sh && ./build.sh && ./start.sh
-
-如有需要付费讲解答疑或其他需求联系v: jack666-
+搭建步骤收录至专栏：https://blog.csdn.net/qq_41575489/category_12099245.html
