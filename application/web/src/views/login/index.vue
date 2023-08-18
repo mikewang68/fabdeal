@@ -1,11 +1,11 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" class="login-form" auto-complete="on" label-position="left">
+    <el-form ref="loginForm" class="login-form" auto-complete="on" label-position="left" :rules="loginRules" :model="loginForm">
 
       <div class="title-container">
         <h3 class="title">基于区块链的商品溯源系统</h3>
       </div>
-      <el-select v-model="value" placeholder="请选择用户角色" class="login-select" @change="selectGet">
+      <el-select v-model="value1" placeholder="请选择用户角色" style="width:70%;margin-left: 70px;" class="login-select" @change="selectGet">
         <el-option
           v-for="item in accountList"
           :key="item.accountId"
@@ -17,11 +17,31 @@
         </el-option>
       </el-select>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">立即进入</el-button>
+  <div class="randomcodeuse" style="width:70%;margin-bottom:20px;" >
+		<!-- <el-form class="login-form" status-icon :rules="loginRules" ref="loginForm" :model="loginForm" label-width="0" style="width:70%;margin-bottom:30px;"> -->
+			<!-- 随机验证码 输入框 -->
+			<el-form-item prop="verifycode" class="input-v">
+				<el-input v-model="loginForm.verifycode" placeholder="请输入验证码" class="identifyinput" style="width:70%;margin-bottom:5px;"></el-input>
+			</el-form-item>
+			<!-- 随机验证码 -->
+			<el-form-item>
+				<div class="identifybox">
+					<div @click="refreshCode">
+						<s-identify :identifyCode="identifyCode"></s-identify>
+					</div>
+					<!-- 刷新验证码 -->
+					<el-button @click="refreshCode" type='text' class="textbtn">看不清，换一张</el-button>
+				</div>
+			</el-form-item>
+		<!-- </el-form> -->
+	</div>
+
+      <el-button :loading="loading" type="primary" style="width:70%;margin-left: 70px;margin-top: -600px;" @click.native.prevent="handleLogin" round>立即进入</el-button>
 
       <div class="tips">
-        <span style="margin-right:20px;">tips: 选择不同用户角色模拟交易</span>
+        <span style="margin-right:10px;margin-left: 70px;">tips: 选择不同用户角色模拟交易</span>
       </div>
+      
 
     </el-form>
   </div>
@@ -29,17 +49,58 @@
 
 <script>
 import { queryAccountList } from '@/api/account'
+import SIdentify from '@/components/RandomCode.vue'
+
 
 export default {
   name: 'Login',
+  // name: 'userlogin',
   data() {
+    
+    // 自定义验证规则：验证码验证规则
+			const validateVerifycode = (rule, value, callback) => {
+				if (value === '') {
+          // this.yzm == 0,
+          callback(new Error('请输入验证码'))
+				} else if (value !== this.identifyCode) {
+          // this.yzm == 0,
+					console.log('validateVerifycode:', value)
+          
+          this.yzm = value,
+          console.log('yzm:', this.yzm)
+					callback(new Error('验证码不正确'))
+				} else {
+          // this.yzm == 1,
+          this.yzm = value,
+					callback()
+				}
+			}
+
     return {
       loading: false,
       redirect: undefined,
       accountList: [],
-      value: ''
+      value1: '',
+      yzm: '',
+      //
+      loginForm: {
+					verifycode: ''
+				},
+				identifyCodes: '1234567890',
+				identifyCode: '',
+				loginRules: { 
+					verifycode: [
+						{ required: true, trigger: 'blur', validator: validateVerifycode },
+					]
+				}
     }
   },
+
+  //
+  components: {
+			// 注册绘制随机验证码的组件
+			SIdentify
+		},
   watch: {
     $route: {
       handler: function(route) {
@@ -57,30 +118,80 @@ export default {
   },
   methods: {
     handleLogin() {
-      if (this.value) {
+      // console.log(verifycode)
+      // console.log(yzm)
+      // debugger
+      console.log(this.identifyCode) 
+      console.log(this.yzm)
+      if ( this.identifyCode != this.yzm || this.identifyCode ==''){
+        // debugger
+        this.$message.error('验证码不正确!')
+        
+      }else{
+        if (this.value1) {
         this.loading = true
         this.$store.dispatch('account/login', this.value).then(() => {
           this.$router.push({ path: this.redirect || '/' })
           this.loading = false
+          this.$message({
+          message: '登陆成功！',
+          type: 'success'
+        });
         }).catch(() => {
           this.loading = false
         })
       } else {
         this.$message('请选择用户角色')
       }
+      }
+      
     },
     selectGet(accountId) {
       this.value = accountId
-    }
+    },
+    // 生成随机数
+			randomNum(min, max) {
+				return Math.floor(Math.random() * (max - min) + min)
+			},
+			// 切换验证码
+			refreshCode() {
+				this.identifyCode = ''
+				this.makeCode(this.identifyCodes, 4)
+			},
+			// 生成四位随机验证码
+			makeCode(_o, l) {
+				for (let i = 0; i < l; i++) {
+					this.identifyCode += this.identifyCodes[this.randomNum(0, this.identifyCodes.length)]
+				}
+				console.log(this.identifyCode)
+			}
   }
 }
 </script>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
+$bg:#3d509d;
 $dark_gray:#889aa4;
 $light_gray:#eee;
-
+.input-v{
+  position: relative;
+  top: 10%;
+}
+//
+.randomcodeuse{
+		width: 60%;
+		margin: auto;
+		display: flex;
+		align-items: center;
+	}
+	.identifybox {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 7px;
+	}
+	.iconstyle {
+		color: #409EFF;
+	}
 .login-container {
   min-height: 100%;
   width: 100%;

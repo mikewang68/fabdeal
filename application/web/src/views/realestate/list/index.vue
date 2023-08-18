@@ -56,14 +56,14 @@
             <el-tag type="danger">商品生产者: </el-tag>
             <span>{{ val.car_lbjscz }}</span>
           </div>
-          <!-- <div class="item">
+           <div class="item">
             <el-tag type="warning">商品零部件生产地: </el-tag>
             <span>{{ val.car_lbjscd }}</span>
           </div>
           <div class="item">
             <el-tag type="danger">商品零部件生产时间: </el-tag>
             <span>{{ val.car_lbjscsj }}</span>
-          </div>           -->
+          </div>           
           <div v-if="!val.encumbrance&&roles[0] !== 'admin'">
             <el-button type="text" @click="openDialog(val)">出售</el-button>
             <el-divider direction="vertical" />
