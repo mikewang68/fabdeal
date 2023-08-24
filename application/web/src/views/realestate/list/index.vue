@@ -14,11 +14,13 @@
         title="查询不到数据"
         type="warning"
       />
+    
     </div>
+
     <el-row v-loading="loading" :gutter="20">
       <el-col v-for="(val,index) in realEstateList" :key="index" :span="6" :offset="1">
         <!-- <el-card class="realEstate-card"> -->
-        <el-card class="text item">
+          <el-card class="text item">
           <div slot="header" class="clearfix">
             担保状态:
             <span style="color: rgb(255, 0, 0);">{{ val.encumbrance }}</span>
@@ -68,6 +70,7 @@
             <el-button type="text" @click="openDialog(val)">出售</el-button>
             <el-divider direction="vertical" />
             <el-button type="text" @click="openDonatingDialog(val)">捐赠</el-button>
+            <el-button type="text" @click="openDialog(val)">删除</el-button>
           </div>
           <el-rate v-if="roles[0] === 'admin'" />
         </el-card>
@@ -192,6 +195,10 @@ export default {
       this.dialogCreateSelling = true
       this.valItem = item
     },
+    openDeletingDialog(item){
+      this.dialogCreateDeleting = true
+      this.valItem = item
+    },
     openDonatingDialog(item) {
       this.dialogCreateDonating = true
       this.valItem = item
@@ -245,6 +252,49 @@ export default {
             this.$message({
               type: 'info',
               message: '已取消出售'
+            })
+          })
+        } else {
+          return false
+        }
+      })
+    },
+    createDeleting(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$confirm('是否立即删除?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'success'
+          }).then(() => {
+            this.loadingDialog = true
+            then(response => {
+              this.loadingDialog = false
+              this.dialogCreateDeleting = false
+              if (response !== null) {
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                })
+              } else {
+                this.$message({
+                  type: 'error',
+                  message: '删除失败!'
+                })
+              }
+              setTimeout(() => {
+                window.location.reload()
+              }, 1000)
+            }).catch(_ => {
+              this.loadingDialog = false
+              this.dialogCreateDeleting = false
+            })
+          }).catch(() => {
+            this.loadingDialog = false
+            this.dialogCreateDeleting = false
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
             })
           })
         } else {

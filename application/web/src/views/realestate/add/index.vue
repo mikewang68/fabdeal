@@ -1,7 +1,6 @@
 <template>
   <div class="app-container">
     <el-form ref="ruleForm" v-loading="loading" :model="ruleForm" :rules="rules" label-width="100px">
-
       <el-form-item label="客户" prop="proprietor">
         <el-select v-model="ruleForm.proprietor" placeholder="请选择客户" @change="selectGet">
           <el-option
@@ -15,8 +14,6 @@
           </el-option>
         </el-select>
       </el-form-item>
-
-
       <!-- <el-form-item label="总空间 ㎡" prop="totalArea">
         <el-input-number v-model="ruleForm.totalArea" :precision="2" :step="0.1" :min="0" />
       </el-form-item> -->

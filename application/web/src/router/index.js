@@ -160,6 +160,22 @@ export const asyncRoutes = [
     }]
   },
 
+  {
+    path: '/deleteRealestate',
+    component: Layout,
+    meta: {
+      roles: ['admin']
+    },
+    children: [{
+      path: '/deleteRealestate',
+      name: 'DeleteRealestate',
+      component: () => import('@/views/realestate/delete/index'),
+      meta: {
+        title: '删除/修改商品',
+        icon: 'deleteRealestate'
+      }
+    }]
+  },
   // 404 page must be placed at the end !!!
   {
     path: '*',
