@@ -38,9 +38,9 @@
        <el-form-item label="商品零部件生产地" prop="totalArea">
         <el-input size="medium"  v-model="ruleForm.car_lbjscd" placeholder="请输入内容"></el-input>
       </el-form-item>
-      <el-form-item label="商品零部件生产时间" prop="totalArea">
+      <!--<el-form-item label="商品零部件生产时间" prop="totalArea">
         <el-input size="medium"  v-model="ruleForm.car_lbjscsj" placeholder="请输入内容"></el-input>
-      </el-form-item> 
+      </el-form-item> -->
 
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>

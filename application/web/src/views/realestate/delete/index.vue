@@ -22,16 +22,16 @@
           </el-table-column>
           <el-table-column prop="scd" label="商品生产地" width="120" sortable>
           </el-table-column>
-          <el-table-column prop="scsj" label="商品生产时间" min-width="120" sortable>
+          <el-table-column prop="scsj" label="商品生产时间" width="120" sortable>
           </el-table-column>
-          <el-table-column prop="ph" label="商品批号" width="100" sortable>
+          <el-table-column prop="ph" label="商品批号" width="120" sortable>
           </el-table-column>
           <el-table-column prop="scz" label="商品生产者" width="120" sortable>
           </el-table-column>
           <el-table-column prop="lbjscd" label="商品零部件生产地" width="120" sortable>
           </el-table-column>
-          <el-table-column prop="lbjscsj" label="商品零部件生产时间" min-width="120" sortable>
-          </el-table-column>
+          <!--<el-table-column prop="lbjscsj" label="商品零部件生产时间" min-width="120" sortable>
+          </el-table-column>-->
           <el-table-column label="操作" width="300">
             <template slot-scope="scope">
               <!-- <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)">新增</el-button> -->
@@ -72,12 +72,12 @@
           <el-form-item label="商品零部件生产地">
             <el-input v-model="Form.lbjscd"></el-input>
           </el-form-item>
-          <el-form-item label="商品零部件生产时间" :picker-options="pickerOptions">
+          <!--<el-form-item label="商品零部件生产时间" :picker-options="pickerOptions">
             <div>
                 <el-date-picker v-model="Form.data" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
             value-format="yyyy-MM-dd"></el-date-picker>
             </div>
-          </el-form-item>         
+          </el-form-item>    -->     
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click.native="handleCancel('Form')">取消</el-button>
@@ -116,11 +116,11 @@
       lbjscsj:'',     
         },
         users:[
-        {name:'1号客户',xinghao:'台式电脑',scs:'联想',scd:'广东',scsj:'',ph:'022',scz:'广东惠阳代工厂',lbjscd:'北京',lbjscsj:''},
-        {name:'4号客户',xinghao:'手机',scs:'小米',scd:'南京',scsj:'',ph:'016',scz:'南京英华达',lbjscd:'河北',lbjscsj:''},
-        {name:'3号客户',xinghao:'手机',scs:'华为',scd:'广东',scsj:'',ph:'015',scz:'广东深圳代工厂',lbjscd:'广东',lbjscsj:''},
-        {name:'4号客户',xinghao:'手表',scs:'小米',scd:'南京',scsj:'',ph:'017',scz:'南京英华达',lbjscd:'河北',lbjscsj:''},
-        {name:'3号客户',xinghao:'台式电脑',scs:'戴尔',scd:'福建',scsj:'',ph:'023',scz:'福建厦门代工厂',lbjscd:'厦门',lbjscsj:''},
+        {name:'1号客户',xinghao:'台式电脑',scs:'联想',scd:'广东',scsj:'',ph:'022',scz:'广东惠阳代工厂',lbjscd:'北京'},
+        {name:'4号客户',xinghao:'手机',scs:'小米',scd:'南京',scsj:'',ph:'016',scz:'南京英华达',lbjscd:'河北',},
+        {name:'3号客户',xinghao:'手机',scs:'华为',scd:'广东',scsj:'',ph:'015',scz:'广东深圳代工厂',lbjscd:'广东',},
+        {name:'4号客户',xinghao:'手表',scs:'小米',scd:'南京',scsj:'',ph:'017',scz:'南京英华达',lbjscd:'河北',},
+        {name:'3号客户',xinghao:'台式电脑',scs:'戴尔',scd:'福建',scsj:'',ph:'023',scz:'福建厦门代工厂',lbjscd:'厦门',},
         ],  
         editFormRules:{
           name: [
@@ -141,9 +141,7 @@
           scz:[
           { required: true, message: '请输入商品生产者', trigger: 'blur' }
           ],
-          lbjscd: [
-            { required: true, message: '请输入商品零部件生产地', trigger: 'blur' }
-          ],
+        
         },
         FormVisible: false,
         currentRow:[],
