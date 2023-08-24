@@ -101,7 +101,7 @@
             addEquipment:'新增',
             editEquipment: "编辑"
         },
-                 //新增和编辑弹框标题
+                 //新增和编辑弹框
         dialogStatus: "",
         Form: {
 		  id: 0,
@@ -120,7 +120,7 @@
         {name:'4号客户',xinghao:'手机',scs:'小米',scd:'南京',scsj:'',ph:'016',scz:'南京英华达',lbjscd:'河北',lbjscsj:''},
         {name:'3号客户',xinghao:'手机',scs:'华为',scd:'广东',scsj:'',ph:'015',scz:'广东深圳代工厂',lbjscd:'广东',lbjscsj:''},
         {name:'4号客户',xinghao:'手表',scs:'小米',scd:'南京',scsj:'',ph:'017',scz:'南京英华达',lbjscd:'河北',lbjscsj:''},
-        {name:'4号客户',xinghao:'台式电脑',scs:'戴尔',scd:'福建',scsj:'',ph:'023',scz:'福建厦门代工厂',lbjscd:'厦门',lbjscsj:''},
+        {name:'3号客户',xinghao:'台式电脑',scs:'戴尔',scd:'福建',scsj:'',ph:'025',scz:'福建厦门代工厂',lbjscd:'厦门',lbjscsj:''},
         ],  
         editFormRules:{
           name: [
