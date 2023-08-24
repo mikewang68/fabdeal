@@ -4,7 +4,7 @@
       <!-- <el-input v-model="tableDataName" size="small" placeholder="请输入姓名" style="width:240px"></el-input>
       <el-button type="primary" size="small" @click="searchUser">搜索</el-button> -->
       <!-- <el-button type="primary" size="small" @click="openData">展示数据</el-button> -->
-      <el-button type="success" size="small" @click="addRow(users)">新增</el-button>
+      <!--<el-button type="success" size="small" @click="addRow(users)">新增</el-button>-->
       <!-- <el-button type="success" size="small" @click="handleAdd()">新增</el-button> -->
       <el-button type="primary" size="small" @click="removeUsers()">批量删除</el-button>
     </div>

@@ -3,7 +3,7 @@
     <el-form ref="loginForm" class="login-form" auto-complete="on" label-position="left" :rules="loginRules" :model="loginForm">
 
       <div class="title-container">
-        <h3 class="title">基于区块链的商品溯源系统</h3>
+        <h3 class="title">基于区块链的商品交易溯源系统</h3>
       </div>
       <el-select v-model="value1" placeholder="请选择用户角色" style="width:70%;margin-left: 70px;" class="login-select" @change="selectGet">
         <el-option
