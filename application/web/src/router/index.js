@@ -171,7 +171,7 @@ export const asyncRoutes = [
       name: 'DeleteRealestate',
       component: () => import('@/views/realestate/delete/index'),
       meta: {
-        title: '删除/修改商品',
+        title: '删除|修改商品',
         icon: 'deleteRealestate'
       }
     }]

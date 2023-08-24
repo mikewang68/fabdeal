@@ -29,7 +29,7 @@
     "BENZMSP": {
       "mspid": "BENZMSP",
       "adminPrivateKey": {
-        "path": "/tmp/crypto/peerOrganizations/benz.com/users/Admin@benz.com/msp/keystore/d6e7cf16e28fae6504ff191db6b05bb49ff804257fe3d99466205c619297e92d_sk"
+        "path": "/tmp/crypto/peerOrganizations/benz.com/users/Admin@benz.com/msp/keystore/52dd531ec2fa37ece39dc62dc152c6949a4a1c84236a558191a5647affab4621_sk"
       },
       "peers": [
         "peer0.benz.com"
