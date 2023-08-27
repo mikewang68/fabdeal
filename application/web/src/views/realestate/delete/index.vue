@@ -116,11 +116,11 @@
       lbjscsj:'',     
         },
         users:[
-        {name:'1号客户',xinghao:'台式电脑',scs:'联想',scd:'广东',scsj:'',ph:'022',scz:'广东惠阳代工厂',lbjscd:'北京'},
+        {name:'1号客户',xinghao:'台式电脑',scs:'联想',scd:'广东',scsj:'',ph:'023',scz:'广东惠阳代工厂',lbjscd:'北京'},
         {name:'4号客户',xinghao:'手机',scs:'小米',scd:'南京',scsj:'',ph:'016',scz:'南京英华达',lbjscd:'河北',},
         {name:'3号客户',xinghao:'手机',scs:'华为',scd:'广东',scsj:'',ph:'015',scz:'广东深圳代工厂',lbjscd:'广东',},
         {name:'4号客户',xinghao:'手表',scs:'小米',scd:'南京',scsj:'',ph:'017',scz:'南京英华达',lbjscd:'河北',},
-        {name:'3号客户',xinghao:'台式电脑',scs:'戴尔',scd:'福建',scsj:'',ph:'023',scz:'福建厦门代工厂',lbjscd:'厦门',},
+        {name:'3号客户',xinghao:'台式电脑',scs:'戴尔',scd:'福建',scsj:'',ph:'022',scz:'福建厦门代工厂',lbjscd:'厦门',},
         ],  
         editFormRules:{
           name: [
