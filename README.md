@@ -30,13 +30,13 @@
 `  
   
 查看docker版本
-![](2023-08-27-21-01-33.png)  
+![Alt text](image-5.png) 
 ##2.4安装docker-compose
 `sudo apt install docker-compose
 `  
   
 查看docker-compose版本
-![](2023-08-27-21-05-16.png)
+![Alt text](image-6.png)
   
 ##2.5安装go
 这里以安装go1.18.5为例  
@@ -73,7 +73,7 @@
   `  
 
 查看go版本
-![](2023-08-27-21-31-41.png)
+![Alt text](image-7.png)
 ##2.6安装node与npm
 下载node安装包：  
 `wget https://nodejs.org/download/release/v8.1.0/node-v8.1.0-linux-x64.tar.gz
@@ -87,7 +87,7 @@
 `sudo ln -s /usr/local/node-v8.1.0-linux-x64/bin/npm /usr/bin/npm
 `  
 查看node、npm版本
-![](2023-08-27-21-41-29.png)
+![Alt text](image-9.png)
 ##2.7官方案例的下载
 * 在~/gowork/src路径下创建目录：`mkdir -p github.com/hyperledger
   `
@@ -99,7 +99,7 @@
   `
 * 检查版本是否切换成功：`git branch
   `
-  ![](2023-08-28-22-25-32.png)
+  ![Alt text](image-8.png)
 * 进入fabric目录下，执行源码的编译：`make release
   `,编译好的文件位于：~/gowork/src/github.com/hyperledger/fabric/release/linux-am64/bin
 * 进入fabric-ca目录下，执行源码的编译：`make fabric-ca-client
@@ -107,9 +107,9 @@
   `make fabric-ca-server
   `，编译好的文件位于： ~/fabric-ca/bin内
 * 将上述所有编译好的文件复制到 fabric-samples文件夹下的bin文件夹中（没有bin文件夹就自行创建），为后期的区块链网络的运行做准备，操作完后如下图所示：
-![](2023-08-28-22-43-59.png)
+![Alt text](image-12.png)
 * 将fabric文件夹下的sampleconfig文件夹移动到fabric-samples中，并命名为config，如下图所示：
-![](2023-08-28-22-52-50.png)
+![Alt text](image-11.png)
 * 在fabric/scripts目录下完成docker镜像的下载：`sudo ./bootstrap.sh 1.4.4 -b -s
   `
 * 在fabric-samples/first-network目录下执行：  
@@ -121,8 +121,8 @@
   `  
   区块链网络的启动：`./byfn.sh up
   `，启动成功如下图所示：
-  ![](2023-08-28-23-01-34.png)
-  ![](2023-08-28-23-05-05.png)
+  ![Alt text](image-13.png)
+  ![Alt text](image-14.png)
 * 如果启动失败可以尝试以下方法：  
   创建docker用户组：`sudo groupadd docker
   `  
@@ -145,20 +145,19 @@
 4、区块连浏览器链接：http://127.0.0.1:8080/ ，用户名admin，密码123456
 ##3.2系统介绍
 * 系统登录页面
-  ![](2023-08-29-21-43-09.png)
+  ![Alt text](image.png)
 * 新增商品页面
-  ![](2023-08-29-21-43-49.png)
+  ![Alt text](image-1.png)
 * 删除/修改商品页面
-  ![](2023-08-29-21-44-19.png)
+  ![Alt text](image-2.png)
 * 销售模块
-  ![](2023-08-29-21-44-47.png)
+  ![Alt text](image-15.png)
 * 捐赠模块
-  ![](2023-08-29-21-45-24.png)
+  ![Alt text](image-4.png)
 #鸣谢
 本项目在实现过程中，特别鸣谢原作者对该项目的无私贡献和辛勤努力。他/她的精心设计和开发，为我们提供了一个优秀的项目基础：  
 https://github.com/togettoyou/fabric-realty
 https://gitee.com/real__cool/fabdeal  
-
 我们承诺尊重原作者的努力和成果，并会努力保持项目的质量和可持续发展。
 再次感谢原作者对项目所做的贡献！
 
