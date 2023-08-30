@@ -1,8 +1,8 @@
-#基于Hyperledger Fabric1.4的商品交易溯源系统
-##一.系统概述与运行环境
-###1.1系统概述
+# 基于Hyperledger Fabric1.4的商品交易溯源系统
+## 一.系统概述与运行环境
+### 1.1系统概述
 本系统主要使用Hyperledger Fabric构建底层区块链网络, go 编写智能合约，应用层使用gin+fabric-sdk-go，前端使用vue+element-ui。主要功能包括：管理员为客户创建商品，客户可以查看所拥有的商品信息。管理员可以对商品信息进行删除、修改操作。客户可以发起销售，所有客户均可查看销售列表，购买者购买后进行扣款操作，并等待卖家确认收款，交易完成后，更新商品持有人，在有效期期间可以随时取消交易，有效期到期后自动关闭交易；客户可以发起捐赠，指定受赠人，受赠人确认接收受赠前，双方可取消捐赠/受赠。
-###1.2运行环境
+### 1.2运行环境
 | 系统开发环境 | 版本信息 |
 | :-: | :-: | 
 | 虚拟机 | VMware Workstation Pro 17Pro |
@@ -17,28 +17,28 @@
 
 ---
 
-##二.Fabric环境搭建（默认安装好虚拟机）
+## 二.Fabric环境搭建（默认安装好虚拟机）
 如未安装虚拟机请参考：http://t.csdn.cn/bKOHy
-###2.1安装git
+### 2.1安装git
 `sudo apt install git
 `
-###2.2安装curl
+### 2.2安装curl
 `sudo apt install curl
 `
-###2.3安装docker
+### 2.3安装docker
 `sudo apt install docker.io
 `  
   
 查看docker版本
 ![Alt text](image-5.png) 
-##2.4安装docker-compose
+### 2.4安装docker-compose
 `sudo apt install docker-compose
 `  
   
 查看docker-compose版本
 ![Alt text](image-6.png)
   
-##2.5安装go
+### 2.5安装go
 这里以安装go1.18.5为例  
   
 下载go1.18.5安装包：  
@@ -74,7 +74,7 @@
 
 查看go版本
 ![Alt text](image-7.png)
-##2.6安装node与npm
+### 2.6安装node与npm
 下载node安装包：  
 `wget https://nodejs.org/download/release/v8.1.0/node-v8.1.0-linux-x64.tar.gz
 `  
@@ -88,7 +88,7 @@
 `  
 查看node、npm版本
 ![Alt text](image-9.png)
-##2.7官方案例的下载
+### 2.7官方案例的下载
 * 在~/gowork/src路径下创建目录：`mkdir -p github.com/hyperledger
   `
 * 切换到文件目录：`cd github.com/hyperledger
@@ -134,8 +134,8 @@
   `  
 * 网络开启成功后，需关闭网络：`./byfn.sh down
   `，防止后续出现错误
-##三.项目介绍
-###3.1启动项目
+## 三.项目介绍
+### 3.1启动项目
 1、进入项目中network目录下，输入`./stop.sh
 `
 命令清理环境,再执行`./start.sh`，部署区块链网络和智能合约  
@@ -143,7 +143,7 @@
 `，再执行`./start.sh`启动前后端应用  
 3、使用浏览器访问前端页面：http://127.0.0.1:8000/web  
 4、区块连浏览器链接：http://127.0.0.1:8080/ ，用户名admin，密码123456
-##3.2系统介绍
+## 3.2系统介绍
 * 系统登录页面
   ![Alt text](image.png)
 * 新增商品页面
@@ -154,7 +154,7 @@
   ![Alt text](image-15.png)
 * 捐赠模块
   ![Alt text](image-4.png)
-#鸣谢
+# 鸣谢
 本项目在实现过程中，特别鸣谢原作者对该项目的无私贡献和辛勤努力。他/她的精心设计和开发，为我们提供了一个优秀的项目基础：  
 https://github.com/togettoyou/fabric-realty
 https://gitee.com/real__cool/fabdeal  
